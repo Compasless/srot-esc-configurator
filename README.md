@@ -1,28 +1,35 @@
-# Compasless SROT ESC Configurator
+<p align="center"><img src="src/assets/compasless-mark.png" width="110" alt="Compasless"></p>
 
-A browser bench tool for the existing SROT ESP32 USB flasher and Compasless 3D ESC firmware.
+# SROT ESC Configurator
 
-Hosted interface: https://compasless-srot-esc-configurator.plainlatte33.chatgpt.site
-The hosted Site uses the owner's default private access. The standalone release
-can also be served locally without a Sites account.
+**COMPASLESS / MARINE ROBOTICS**
 
-Connect in desktop Chrome or Edge, read the channels, select an ESC, then flash its
-matching firmware. The app reads up to four independent channels over MSP/4-way at
-115200 baud. The SROT flasher's hardware firmware is unchanged.
+Browser-based flashing and configuration for Compasless SROT 3D thruster ESCs.
 
-The interface recognizes Compasless layout 208, exposes a bounded set of tuning
-fields, forces direction field 3 when saving, verifies firmware SHA-256 before
-flashing, preserves hardware-layout checks and uses the upstream erase/write/readback
-logic. There are no motor-test controls and no MCU-layout override.
+[Open configurator](https://compasless.github.io/srot-esc-configurator/) · [Firmware releases](https://github.com/Compasless/srot-esc-firmware/releases/tag/v0.4.0) · [Flasher hardware](https://github.com/Compasless/srot-esc-flasher)
 
-The firmware library includes all 1,008 verified v0.4.0 HEX targets. Download a
-matching file here for local-file flashing in esc-configurator.com. The public
-site can flash/reflash these images but does not recognize their settings family;
-it may display BLHeli_S 0.4 or UNKNOWN. Use this interface for settings.
+![Build and deployment](https://github.com/Compasless/srot-esc-configurator/actions/workflows/pages.yml/badge.svg)
 
-## Development
+![Configurator workbench](.github/assets/workbench.png)
 
-Use Node 22 or later:
+## Use
+
+Open the configurator in desktop Chrome or Edge, connect the SROT USB flasher,
+read the ESC channels, select a channel and flash its matching firmware.
+
+- Up to four independent ESC channels over MSP/4-way at 115200 baud.
+- All 1,008 verified v0.4.0 hardware targets included.
+- SHA-256 validation, layout/MCU checks and write/readback verification.
+- Parameter editing with the motor operating mode fixed at 3D.
+- Settings/log export and matching HEX downloads for public ESC Configurator.
+
+Remove propellers or disconnect thrusters before bench flashing. No physical ESC
+or underwater qualification is claimed. The inherited 3D performance issue remains
+unresolved. See the [firmware compatibility notes](https://github.com/Compasless/srot-esc-firmware/blob/main/docs/COMPATIBILITY.md).
+
+## Develop
+
+Requires Node 22 or later:
 
     npm ci
     npm run build
@@ -30,35 +37,19 @@ Use Node 22 or later:
     npm run qa
     npm run preview
 
-The preview is http://127.0.0.1:4173. Browser QA uses installed Chrome/Edge when
-available; otherwise install the Playwright Chromium browser with
-`npx playwright install chromium`.
+Open http://127.0.0.1:4173. Browser QA uses installed Chrome/Edge, or Playwright
+Chromium installed with `npx playwright install chromium`. Tests use simulated
+hardware and never request real serial devices.
 
-Build inputs are pinned in upstream.lock.json. The build downloads and verifies
-the original configurator source archive and the already-published firmware ZIP.
-It adds a Compasless firmware source and detection branch; serial/MSP/4-way drivers,
-hardware checks and flash/readback routines are reused. No firmware bytes change.
+GitHub Actions builds and tests every update; successful main builds deploy to
+GitHub Pages. The lock file pins the original ESC Configurator source archive
+and the published firmware ZIP. Firmware bytes are never changed by this project.
 
-Tests cover every target's detection and checksums, forbidden mode edits, H/X
-flashing and settings through a simulated native Web Serial port, stock-site
-flashing/reflashing, and blocked mismatches. Browser QA exercises connection,
-four-channel scanning, flashing, settings save, checksum rejection, downloads,
-mobile/desktop layout and disconnect. No physical device is accessed by tests.
+## Brand and license
 
-## Standalone release
+The interface follows the supplied Compasless guideline: signal red #C8201E,
+white #FFFFFF and black #16171A. See [brand implementation](docs/BRAND.md).
 
-Extract the configurator ZIP, then serve that directory:
-
-    python -m http.server 4173 --bind 127.0.0.1
-
-Open http://127.0.0.1:4173 in Chrome or Edge. Opening index.html directly as a file
-does not provide the same-origin fetch environment the app needs.
-
-## License and qualification
-
-This interface is an AGPL-3.0 derivative of ESC Configurator; see LICENSE, NOTICE
-and the pinned source recipe. Firmware remains under its own GPL license.
-Corresponding source and build inputs are published in this repository.
-
-All verification is software-based. ESC hardware and underwater qualification
-remain pending, and the inherited 3D performance issue is unresolved.
+Based on ESC Configurator 0.32.1. Serial/MSP/4-way and flash verification code retain
+their original notices. This application is AGPL-3.0; see LICENSE and NOTICE.
+Firmware and company artwork retain their respective licenses and ownership.

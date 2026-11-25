@@ -96,6 +96,7 @@ export async function buildSite() {
  }
  await fs.writeFile(path.join(firmwareDir,'manifest.json'),JSON.stringify(manifest));
  for(const name of ['COPYING','NOTICE'])await fs.writeFile(path.join(firmwareDir,name),files[name]);
+ await fs.cp(path.join(ROOT,'src/assets'),path.join(dist,'assets'),{recursive:true});
  for(const name of ['index.html','styles.css'])await fs.copyFile(path.join(ROOT,'src',name),path.join(dist,name));
  for(const name of ['LICENSE','NOTICE','upstream.lock.json'])await fs.copyFile(path.join(ROOT,name),path.join(dist,name));
  await build({...bundlingOptions(upstream),entryPoints:[path.join(ROOT,'src','app.js')],

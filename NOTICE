@@ -7,5 +7,5 @@ Original project: https://github.com/stylesuxx/esc-configurator
 Original authors include Chris Landa, Mathias Rasmussen and contributors.
 This configurator is distributed under the GNU AGPL version 3; see LICENSE.
 The corresponding source and integration/build recipes are in the public SROT
-ESC firmware repository under configurator/. Firmware files have their own GPL
+ESC configurator repository. Firmware files have their own GPL
 license and author notices, included under firmware/ in the hosted build.

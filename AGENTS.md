@@ -1,18 +1,13 @@
-# Configurator instructions
+# SROT ESC Configurator
 
-This directory is part of the fourth SROT repository. Keep its source here;
-dependency caches and Sites deployment mirrors are not additional SROT checkouts.
+This is the standalone Compasless configurator repository. Firmware source belongs
+in srot-esc-firmware; hardware-flasher, control-board and ground-station source remain separate.
 
-Read README.md and upstream.lock.json. Firmware bytes are copied from the pinned
-published release only. Do not patch HEX data or restore upstream firmware branding.
-Keep 3D fixed and normalize MOTOR_DIRECTION to 3 on every parameter write.
-Preserve layout, MCU, CRC, erase/write/readback and bootloader checks.
-Never expose a force/ignore-layout control or motor-test commands.
+Read README.md, docs/BRAND.md and upstream.lock.json. Keep 3D fixed and normalize
+MOTOR_DIRECTION to 3 on every parameter write. Preserve SHA-256, layout, MCU, CRC,
+bootloader and readback checks. Never expose force/ignore-layout controls or motor tests.
+Tests must use simulated ports, never real serial hardware.
 
-Use the existing SROT flasher's MSP/4-way interface at 115200 baud. Do not change
-the flasher, control-board or ground-station source as part of a configurator edit.
-
-Tests must use simulated ports, never request real serial hardware. Compile and
-test changed browser/protocol behavior; preserve original AGPL notices and source
-availability. Reuse the persisted Sites project ID. Keep source credentials out
-of files and command lines.
+Deploy successful builds through GitHub Pages. Run npm run build, npm test and
+npm run qa after functional changes. Preserve AGPL notices and source availability.
+Use the supplied company mark without distortion; respect the exact COMPASLESS spelling.
